@@ -1,2 +1,2 @@
-1 - Handle possible different currency transactions, still don't know how NEXI app handles these notifications, it might convert it to EUR automatically
-    cant really know until it happens, super rare anyways
+1 - Handle possible different currency transactions, still don't know how NEXI app handles these notifications, it might convert it to EUR automatically cant really know until it happens, super rare anyways
+2 - Add another similar Flow to handle paycheck deposits for better budget overview
