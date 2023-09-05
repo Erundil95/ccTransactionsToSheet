@@ -12,8 +12,8 @@
 </trigger>
 <action type="copy_text_to_clipboard">
 <useDefaultName>true</useDefaultName>
-<name>Copy Text to Clipboard: </name>
-<text/>
+<name>Copy Text to Clipboard: {notification_text}</name>
+<text>{notification_text}</text>
 </action>
 <action type="mail_gmail">
 <useDefaultName>false</useDefaultName>
@@ -81,21 +81,21 @@
 </action>
 <action type="script">
 <useDefaultName>true</useDefaultName>
-<name>Script: result = newList(); //matches(notification_text ,'[\s\S]*?pagamento di (\d+,\d{2}€) sulla carta (\d{4}) c/o presso (.*?) il (.*?) alle (.*?)' , result); //matches(notification_text, '[\s\S]*?pagamento di (\d+,\d{2}€) sulla carta (\d{4}) c/o presso (.*?) il (.*?) alle (.*?)[\s\S]*?', result); //vendor = result[3]; notif = findAll(notification_text, ' (\\d+,\\d{2}€).*? presso.*'); s = notif[0]; price = findAll(s, '(\\d+,\\d{2}€)')[0]; vendor_full = findAll(s,'presso\\s(.*?)\\sil')[0]; vendor = substring(vendor_full, 7, length(vendor_full) - 3); date = findAll(s, '(\\d{2}/\\d{2}/\\d{4})')[0]; time = findAll(s, '(\\d{2}:\\d{2})')[0]; //price = result[0];</name>
-<script> result = newList(); //matches(notification_text ,'[\s\S]*?pagamento di (\d+,\d{2}€) sulla carta (\d{4}) c/o presso (.*?) il (.*?) alle (.*?)' , result); //matches(notification_text, '[\s\S]*?pagamento di (\d+,\d{2}€) sulla carta (\d{4}) c/o presso (.*?) il (.*?) alle (.*?)[\s\S]*?', result); //vendor = result[3]; notif = findAll(notification_text, ' (\\d+,\\d{2}€).*? presso.*'); s = notif[0]; price = findAll(s, '(\\d+,\\d{2}€)')[0]; vendor_full = findAll(s,'presso\\s(.*?)\\sil')[0]; vendor = substring(vendor_full, 7, length(vendor_full) - 3); date = findAll(s, '(\\d{2}/\\d{2}/\\d{4})')[0]; time = findAll(s, '(\\d{2}:\\d{2})')[0]; //price = result[0]; </script>
+<name>Script: //matches(notification_text ,'[\s\S]*?pagamento di (\d+,\d{2}€) sulla carta (\d{4}) c/o presso (.*?) il (.*?) alle (.*?)' , result); //matches(notification_text, '[\s\S]*?pagamento di (\d+,\d{2}€) sulla carta (\d{4}) c/o presso (.*?) il (.*?) alle (.*?)[\s\S]*?', result); //vendor = result[3]; notif = findAll(notification_text, '(\\d+,\\d{2} €).*? presso.*'); s = notif[0]; price = findAll(s, '(\\d+,\\d{2} €)')[0]; vendor_full = findAll(s,'presso\\s(.*?)\\sil')[0]; vendor = substring(vendor_full, 7, length(vendor_full) - 3); date = findAll(s, '(\\d{2}/\\d{2}/\\d{2})')[0]; time = findAll(s, '(\\d{2}:\\d{2})')[0];</name>
+<script> //matches(notification_text ,'[\s\S]*?pagamento di (\d+,\d{2}€) sulla carta (\d{4}) c/o presso (.*?) il (.*?) alle (.*?)' , result); //matches(notification_text, '[\s\S]*?pagamento di (\d+,\d{2}€) sulla carta (\d{4}) c/o presso (.*?) il (.*?) alle (.*?)[\s\S]*?', result); //vendor = result[3]; notif = findAll(notification_text, '(\\d+,\\d{2} €).*? presso.*'); s = notif[0]; price = findAll(s, '(\\d+,\\d{2} €)')[0]; vendor_full = findAll(s,'presso\\s(.*?)\\sil')[0]; vendor = substring(vendor_full, 7, length(vendor_full) - 3); date = findAll(s, '(\\d{2}/\\d{2}/\\d{2})')[0]; time = findAll(s, '(\\d{2}:\\d{2})')[0]; </script>
 </action>
 <flow type="flow">
 <name>Cc notif to sheet</name>
 <enabled>true</enabled>
 <executionPolicy>PARALLEL</executionPolicy>
-<actioncontainer id="t1" x="104.999954" y="437.4998">Copy Text to Clipboard: </actioncontainer>
-<actioncontainer id="t2" x="-34.999958" y="577.5">Notification on Statusbar: Transaction Detected Notification</actioncontainer>
-<actioncontainer id="t3" x="-34.999992" y="262.5">Script: result = newList(); //matches(notification_text ,'[\s\S]*?pagamento di (\d+,\d{2}€) sulla carta (\d{4}) c/o presso (.*?) il (.*?) alle (.*?)' , result); //matches(notification_text, '[\s\S]*?pagamento di (\d+,\d{2}€) sulla carta (\d{4}) c/o presso (.*?) il (.*?) alle (.*?)[\s\S]*?', result); //vendor = result[3]; notif = findAll(notification_text, ' (\\d+,\\d{2}€).*? presso.*'); s = notif[0]; price = findAll(s, '(\\d+,\\d{2}€)')[0]; vendor_full = findAll(s,'presso\\s(.*?)\\sil')[0]; vendor = substring(vendor_full, 7, length(vendor_full) - 3); date = findAll(s, '(\\d{2}/\\d{2}/\\d{4})')[0]; time = findAll(s, '(\\d{2}:\\d{2})')[0]; //price = result[0];</actioncontainer>
-<triggercontainer id="t4" x="-35.000004" y="52.499992">
+<triggercontainer id="t1" x="-35.000008" y="52.499992">
 <trigger>Notification on Statusbar Displayed: it.icbpi.mobile,com.xinesoft.notifications Text contains text pagamento</trigger>
 </triggercontainer>
-<connection from="t3" to="t2" type="NORMAL" sourcePosition="SOUTH" targetPosition="NORTH"/>
-<connection from="t3" to="t1" type="NORMAL" sourcePosition="SOUTH" targetPosition="NORTH"/>
+<actioncontainer id="t2" x="140.00003" y="227.49966">Copy Text to Clipboard: {notification_text}</actioncontainer>
+<actioncontainer id="t3" x="-34.999985" y="437.5">Notification on Statusbar: Transaction Detected Notification</actioncontainer>
+<actioncontainer id="t4" x="-34.999992" y="262.5">Script: //matches(notification_text ,'[\s\S]*?pagamento di (\d+,\d{2}€) sulla carta (\d{4}) c/o presso (.*?) il (.*?) alle (.*?)' , result); //matches(notification_text, '[\s\S]*?pagamento di (\d+,\d{2}€) sulla carta (\d{4}) c/o presso (.*?) il (.*?) alle (.*?)[\s\S]*?', result); //vendor = result[3]; notif = findAll(notification_text, '(\\d+,\\d{2} €).*? presso.*'); s = notif[0]; price = findAll(s, '(\\d+,\\d{2} €)')[0]; vendor_full = findAll(s,'presso\\s(.*?)\\sil')[0]; vendor = substring(vendor_full, 7, length(vendor_full) - 3); date = findAll(s, '(\\d{2}/\\d{2}/\\d{2})')[0]; time = findAll(s, '(\\d{2}:\\d{2})')[0];</actioncontainer>
+<connection from="t1" to="t4" type="NORMAL" sourcePosition="SOUTH" targetPosition="NORTH"/>
+<connection from="t1" to="t2" type="NORMAL" sourcePosition="SOUTH" targetPosition="NORTH"/>
 <connection from="t4" to="t3" type="NORMAL" sourcePosition="SOUTH" targetPosition="NORTH"/>
 </flow>
 </data>
