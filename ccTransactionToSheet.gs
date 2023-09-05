@@ -17,7 +17,8 @@ function ccTransactionsToSheet() {
       if (data.length < 5) {
         throw new Error("Email body not formatted as expected.");
       }
-      var amount = data[0];
+  
+      var amount = data[0].replace(" €", "");    //might want to handle the rare cases of diff currency transactions
       var vendor = data[1];
       var date = data[2];
       var time = data[3];
