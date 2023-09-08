@@ -1,9 +1,12 @@
 function ccTransactionsToSheet() {
-  var label = GmailApp.getUserLabelByName("CC Transactions");
+  var pendingLabel = GmailApp.getUserLabelByName("Pending Transactions");
+  var processedLabel = GmailApp.getUserLabelByName("Processed Transactions");
 
-  var threads = label.getThreads().filter(function(thread) {
-    return thread.isUnread();
-  });
+  var threads = pendingLabel.getThreads()
+  
+  // .filter(function(thread) {
+  //   return thread.isUnread();
+  // });
 
   var sheet = SpreadsheetApp.openById('1hHLlyu5B5hI9cIfWHgbHfDQjak57iO1DRD2YBBgLSNc').getSheetByName('Transactions')
   
@@ -12,7 +15,7 @@ function ccTransactionsToSheet() {
     var body = message.getPlainBody();
 
     try {
-      // Text is CSV-like "amount,vendor,date,time,label"
+      // Text is CSV-like "amount,vendor,date,time,owner"
       var data = body.split("|");
       if (data.length < 5) {
         throw new Error("Email body not formatted as expected.");
@@ -22,12 +25,22 @@ function ccTransactionsToSheet() {
       var vendor = data[1];
       var date = data[2];
       var time = data[3];
-      var label = data[4];
+      var owner = data[4];
       
-      sheet.appendRow([date, time, amount, vendor, label]);
+      sheet.appendRow([date, time, amount, vendor, owner]);
+
+      var lastRow = sheet.getLastRow();
+
+      var dateCell = sheet.getRange("A" + lastRow);
+      dateCell.setNumberFormat("dd/mm/yyyy");
+      var amountCell = sheet.getRange("C" + lastRow);
+      amountCell.setNumberFormat("0.00");
+
       
-      // Mark the message as read
-      message.markRead();
+      // Move the thread to the 'Processed Transactions' label
+      threads[i].removeLabel(pendingLabel);
+      threads[i].addLabel(processedLabel);
+      
     } catch(e) {
       // Log any errors for debugging
       console.error("Error processing thread " + threads[i].getId() + ": " + e.message);
