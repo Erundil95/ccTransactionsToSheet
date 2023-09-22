@@ -59,7 +59,7 @@ function main() {
 
 function getDataFromTransactionMail(body) {
     try {
-      // Text is CSV-like "amount,vendor,date,time,owner"f
+      // Text is CSV-like "amount|vendor|date|time|owner"f
       const data = body.split("|");
       if (data.length < 5) {
         throw new Error("Email body not formatted as expected.");
