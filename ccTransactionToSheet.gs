@@ -4,7 +4,7 @@ EXPENSES MONTH: =SUMIFS(Transactions!C2:C; Transactions!E2:E; "=mine"; Transacti
 EARNINGS YEAR: =SUMIFS(Earnings!C2:C; Earnings!A2:A; ">="&DATE(YEAR(TODAY());MONTH(TODAY());1); Earnings!A2:A; "<="&EOMONTH(TODAY();0))
 EXPENSES YEAR: =SUMIFS(Transactions!C2:C; Transactions!E2:E; "=mine"; Transactions!A2:A; ">="&DATE(YEAR(TODAY());MONTH(TODAY());1); Transactions!A2:A; "<="&EOMONTH(TODAY();0))
 */
-const SHEET_ID = '1ZDt-wVw6yhNq3Tm_pUkRvZi7VVFUg9Qb3i6a9QHs7Ao';
+const SHEET_ID = '1hHLlyu5B5hI9cIfWHgbHfDQjak57iO1DRD2YBBgLSNc';
 const PENDING_LABEL = 'Pending Transactions';
 const PROCESSED_LABEL = 'Processed Transactions';
 const monthToColor = {
