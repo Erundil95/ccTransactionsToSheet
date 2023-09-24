@@ -22,14 +22,16 @@ const monthToColor = {
   12: "#008080" // December
 };
 
-function main() {
+function 	ccTransactionsToSheet() {
   const pendingLabel = GmailApp.getUserLabelByName(PENDING_LABEL);
   const processedLabel = GmailApp.getUserLabelByName(PROCESSED_LABEL);
   const threads = pendingLabel.getThreads();
   const sheet = SpreadsheetApp.openById(SHEET_ID);
   const transactionSheet = sheet.getSheetByName("Transactions");
+  Logger.log("Starting processing threads.");
 
   if (threads) {
+    Logger.log(threads.length + " threads found.");
     for (var i = 0; i < threads.length; i++) {
       const message = threads[i].getMessages()[0]; //get first and only message
       const body = message.getPlainBody();
@@ -50,16 +52,21 @@ function main() {
       // Move the thread to the 'Processed Transactions' label
       threads[i].removeLabel(pendingLabel);
       threads[i].addLabel(processedLabel);
+      Logger.log("Moved thread to 'Processed Transactions' label.");
     }
+  } else {
+    Logger.log("No threads found.");
   }
 
   //Order transactions by date (column A) and time (column B) (newest first)
   transactionSheet.sort(1, false); 
+  Logger.log("Sorted transaction sheet.");
+
 }
 
 function getDataFromTransactionMail(body) {
     try {
-      // Text is CSV-like "amount|vendor|date|time|owner"f
+      // Text is CSV-like "amount,vendor,date,time,owner"f
       const data = body.split("|");
       if (data.length < 5) {
         throw new Error("Email body not formatted as expected.");
@@ -71,6 +78,8 @@ function getDataFromTransactionMail(body) {
       const time = data[3];
       const owner = data[4];
       
+      Logger.log("Extracted data from email: " + [date, time, amount, vendor, owner].join(", "));
+
       return [date, time, amount, vendor, owner];
 
     } catch(e) {
@@ -83,13 +92,11 @@ function getDataFromTransactionMail(body) {
 function colorLabels(transactionDate,  lastRow, transactionSheet) {
   const colorCell = transactionSheet.getRange("F" + lastRow);
   const [day, month, year] = transactionDate.split("/"); 
-  Logger.log(transactionDate);
-  Logger.log("Month: " + month);
+  Logger.log("Transaction date: " + transactionDate);
+  Logger.log("Parsed month: " + month);
 
   let color = monthToColor[parseInt(month)];
   Logger.log("Coloring cell " + colorCell.getA1Notation() + " with color " + color);
 
   colorCell.setBackground(color);
 }  
-  
-main();
