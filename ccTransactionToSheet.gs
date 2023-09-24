@@ -22,7 +22,7 @@ const monthToColor = {
   12: "#008080" // December
 };
 
-function 	ccTransactionsToSheet() {
+function ccTransactionsToSheet() {
   const pendingLabel = GmailApp.getUserLabelByName(PENDING_LABEL);
   const processedLabel = GmailApp.getUserLabelByName(PROCESSED_LABEL);
   const threads = pendingLabel.getThreads();
