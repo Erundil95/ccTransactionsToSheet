@@ -28,6 +28,7 @@ function ccTransactionsToSheet() {
   const threads = pendingLabel.getThreads();
   const sheet = SpreadsheetApp.openById(SHEET_ID);
   const transactionSheet = sheet.getSheetByName("Transactions");
+  const earningsSheet = sheet,getSheetByName("Earnings");
   Logger.log("Starting processing threads.");
 
   if (threads) {
@@ -60,6 +61,7 @@ function ccTransactionsToSheet() {
 
   //Order transactions by date (column A) and time (column B) (newest first)
   transactionSheet.sort(1, false); 
+  earningsSheet.sort(1, false);
   Logger.log("Sorted transaction sheet.");
 
 }
