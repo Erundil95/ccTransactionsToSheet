@@ -28,7 +28,7 @@ function ccTransactionsToSheet() {
   const threads = pendingLabel.getThreads();
   const sheet = SpreadsheetApp.openById(SHEET_ID);
   const transactionSheet = sheet.getSheetByName("Transactions");
-  const earningsSheet = sheet,getSheetByName("Earnings");
+  const earningsSheet = sheet.getSheetByName("Earnings");
   Logger.log("Starting processing threads.");
 
   if (threads) {
